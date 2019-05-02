@@ -4,16 +4,19 @@ namespace BindableBaseApp.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
+        private string _title = "MainWindow";
+        private string _author;
+
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
-        public MainWindowViewModel()
+        public string Author
         {
-
+            get => _author;
+            set => SetProperty(ref _author, value);
         }
     }
 }

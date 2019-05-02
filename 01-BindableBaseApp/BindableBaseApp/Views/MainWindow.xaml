@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
+        Title="{Binding Title}" Height="450" Width="800">
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="312,107,0,0" VerticalAlignment="Top" Width="120" />
+        <Label Content="{Binding Author}" HorizontalAlignment="Left" Margin="312,135,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
