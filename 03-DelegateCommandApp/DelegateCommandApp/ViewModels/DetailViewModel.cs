@@ -28,11 +28,9 @@ namespace DelegateCommandApp.ViewModels
         {
             if (IsNavigationTarget(navigationContext)) return;
 
-            if (navigationContext.Parameters["book"] is BookVm selectedBook)
-            {
-                Title = selectedBook.Title;
-                Author = selectedBook.Author;
-            }
+            var selectedBook = (BookVm) navigationContext.Parameters["book"];
+            Title = selectedBook.Title;
+            Author = selectedBook.Author;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
