@@ -17,7 +17,7 @@ namespace DelegateCommandApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterForNavigation<Detail>();
         }
     }
 }
