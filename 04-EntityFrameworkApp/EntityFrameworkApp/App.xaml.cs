@@ -1,7 +1,9 @@
-﻿using EntityFrameworkApp.Views;
+﻿using System.Data.Entity;
+using EntityFrameworkApp.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
+using EntityFrameworkApp.Entities;
 
 namespace EntityFrameworkApp
 {
@@ -18,6 +20,12 @@ namespace EntityFrameworkApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<Detail>();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Database.SetInitializer(new DbInitializer());
+            base.OnStartup(e);
         }
     }
 }

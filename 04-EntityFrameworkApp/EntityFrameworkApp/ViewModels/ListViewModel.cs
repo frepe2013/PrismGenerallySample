@@ -1,8 +1,9 @@
-﻿using Prism.Commands;
+﻿using EntityFrameworkApp.Entities;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EntityFrameworkApp.ViewModels
 {
@@ -23,12 +24,13 @@ namespace EntityFrameworkApp.ViewModels
         public ListViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            Books = new ObservableCollection<BookVm>(new List<BookVm>
+            Books = new ObservableCollection<BookVm>();
+            using (var context = new ShelfContext())
             {
-                new BookVm("Test-Driven Development", "Kent Beck"),
-                new BookVm("The Healthy Programmer", "Joe Kutner"),
-                new BookVm("Effective C#", "Bill Wagner"),
-            });
+                var bookList = context.Books.ToList();
+                var vms = bookList.Select(book => new BookVm(book.Title, book.Author));
+                Books.AddRange(vms);
+            }
 
             BookSelectedCommand = new DelegateCommand<BookVm>(ExecuteBookSelectedCommand);
         }
