@@ -1,17 +1,40 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BasicApp.ViewModels
 {
-    public class DetailViewModel : BindableBase, INavigationAware
+    public class DetailViewModel : BindableBase, INavigationAware, INotifyDataErrorInfo
     {
+        private IDictionary<string, ICollection<string>> _errors = new Dictionary<string, ICollection<string>>();
+
         private string _title;
         private string _author;
 
         public string Title
         {
             get => _title;
-            set => SetProperty(ref _title, value);
+            set
+            {
+                if (SetProperty(ref _title, value))
+                {
+                    var messages = new List<string>();
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        messages.Add("Title is required");
+                    }
+
+                    _errors[nameof(Title)] = messages;
+
+                    RaiseErrorsChanged();
+                }
+            }
         }
 
         public string Author
@@ -20,8 +43,20 @@ namespace BasicApp.ViewModels
             set => SetProperty(ref _author, value);
         }
 
+        public DelegateCommand SaveCommand { get; set; }
+
         public DetailViewModel()
         {
+            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);
+        }
+
+        private void ExecuteSaveCommand()
+        {
+        }
+
+        private bool CanExecuteSaveCommand()
+        {
+            return true;
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -46,5 +81,34 @@ namespace BasicApp.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+
+        private void RaiseErrorsChanged([CallerMemberName] string propertyName = null)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return null;
+            }
+
+            if (!_errors.ContainsKey(propertyName))
+            {
+                return null;
+            }
+
+            if (!_errors[propertyName].Any())
+            {
+                return null;
+            }
+
+            return _errors[propertyName];
+        }
+
+        public bool HasErrors => _errors.Values.Any(collection => collection.Any());
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
     }
 }
