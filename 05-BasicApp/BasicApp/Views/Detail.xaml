@@ -12,6 +12,29 @@
                             Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
                     <Setter Property="Background" Value="MistyRose"></Setter>
                 </Trigger>
+                <Trigger Property="IsVisible" Value="True">
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                    <ItemsControl DockPanel.Dock="Bottom" Margin="5,0"
+                                                  ItemsSource="{Binding ElementName=adornedElement, Path=AdornedElement.(Validation.Errors)}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Border BorderBrush="Red" BorderThickness="1"
+                                            Width="{Binding ElementName=adornedElement, Path=ActualWidth}"
+                                            Height="{Binding ElementName=adornedElement, Path=ActualHeight}">
+                                        <AdornedElementPlaceholder Name="adornedElement"/>
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -21,7 +44,7 @@
                 <Label Content="ID："></Label>
                 <Label Content="{Binding Id}" HorizontalAlignment="Left"></Label>
             </StackPanel>
-            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+            <TextBox Name="TitleBox" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
                      Style="{StaticResource ErrorStyle}"></TextBox>
             <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
                      Style="{StaticResource ErrorStyle}"></TextBox>

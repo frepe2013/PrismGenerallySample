@@ -88,6 +88,13 @@ namespace BasicApp.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            // TitleBox ToolTip&Background clear.
+            //
+            //var enumerator = navigationContext.NavigationService.Region.ActiveViews.GetEnumerator();
+            //enumerator.MoveNext();
+            //var view = (Detail)enumerator.Current;
+            //view.TitleBox.ToolTip = string.Empty;
+            //view.TitleBox.Background = null;
         }
 
         private void RaiseErrorsChanged([CallerMemberName] string propertyName = null)
