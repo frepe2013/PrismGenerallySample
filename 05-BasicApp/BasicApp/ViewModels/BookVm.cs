@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BasicApp.Entities;
 
 namespace BasicApp.ViewModels
 {
     public class BookVm
     {
-        public string Title { get; }
+        private readonly Book _book;
 
-        public string Author { get; }
+        public int Id => _book.Id;
 
-        public BookVm(string title, string author)
+        public string Title => _book.Title;
+
+        public string Author => _book.Author;
+
+        public BookVm(Book book)
         {
-            Title = title;
-            Author = author;
+            _book = book;
         }
 
         public override string ToString()

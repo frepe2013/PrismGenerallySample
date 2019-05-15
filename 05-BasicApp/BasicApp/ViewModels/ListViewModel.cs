@@ -29,7 +29,7 @@ namespace BasicApp.ViewModels
             using (var context = new ShelfContext())
             {
                 var bookList = context.Books.ToList();
-                var vms = bookList.Select(book => new BookVm(book.Title, book.Author));
+                var vms = bookList.Select(book => new BookVm(book));
                 Books.AddRange(vms);
             }
 

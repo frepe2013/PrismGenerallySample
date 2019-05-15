@@ -17,6 +17,10 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Grid.Row="0" Margin="10,45,0,0">
+            <StackPanel Orientation="Horizontal" Margin="5,0,5,10">
+                <Label Content="ID："></Label>
+                <Label Content="{Binding Id}" HorizontalAlignment="Left"></Label>
+            </StackPanel>
             <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
                      Style="{StaticResource ErrorStyle}"></TextBox>
             <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"

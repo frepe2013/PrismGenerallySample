@@ -14,8 +14,15 @@ namespace BasicApp.ViewModels
     {
         private IDictionary<string, ICollection<string>> _errors = new Dictionary<string, ICollection<string>>();
 
+        private int _id;
         private string _title;
         private string _author;
+
+        public int Id
+        {
+            get => _id;
+            private set => SetProperty(ref _id, value);
+        }
 
         public string Title
         {
@@ -64,6 +71,7 @@ namespace BasicApp.ViewModels
             if (IsNavigationTarget(navigationContext)) return;
 
             var selectedBook = (BookVm)navigationContext.Parameters["book"];
+            Id = selectedBook.Id;
             Title = selectedBook.Title;
             Author = selectedBook.Author;
         }
@@ -72,7 +80,7 @@ namespace BasicApp.ViewModels
         {
             if (navigationContext.Parameters["book"] is BookVm selectedBook)
             {
-                return Title == selectedBook.Title;
+                return Id == selectedBook.Id;
             }
 
             return true;
