@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace BasicApp.ViewModels
 {
@@ -47,7 +48,26 @@ namespace BasicApp.ViewModels
         public string Author
         {
             get => _author;
-            set => SetProperty(ref _author, value);
+            set
+            {
+                if (SetProperty(ref _author, value))
+                {
+                    var messages = new List<string>();
+                    if (value.Length > 20)
+                    {
+                        messages.Add("Author is less than 20 characters");
+                    }
+
+                    if (Regex.IsMatch(value, "\\d"))
+                    {
+                        messages.Add("Author can not contain numbers");
+                    }
+
+                    _errors[nameof(Author)] = messages;
+
+                    RaiseErrorsChanged();
+                }
+            }
         }
 
         public DelegateCommand SaveCommand { get; set; }
