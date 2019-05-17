@@ -1,11 +1,10 @@
-﻿using Prism.Commands;
+﻿using ErrorsContainerApp.Entities;
+using Prism.Commands;
 using Prism.Mvvm;
-using System;
+using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using ErrorsContainerApp.Entities;
-using Prism.Regions;
 
 namespace ErrorsContainerApp.ViewModels
 {
