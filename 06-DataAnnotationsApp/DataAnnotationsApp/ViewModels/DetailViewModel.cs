@@ -6,8 +6,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 
 namespace DataAnnotationsApp.ViewModels
 {
@@ -25,6 +26,7 @@ namespace DataAnnotationsApp.ViewModels
             private set => SetProperty(ref _id, value);
         }
 
+        [Required(ErrorMessage = "Title is required")]
         public string Title
         {
             get => _title;
@@ -32,17 +34,13 @@ namespace DataAnnotationsApp.ViewModels
             {
                 if (SetProperty(ref _title, value))
                 {
-                    var messages = new List<string>();
-                    if (string.IsNullOrEmpty(value))
-                    {
-                        messages.Add("Title is required");
-                    }
-
-                    _errors.SetErrors(nameof(Title), messages);
+                    ValidateProperty(value);
                 }
             }
         }
 
+        [StringLength(20, ErrorMessage = "Author is less than 20 characters")]
+        [RegularExpression("[^0-9]*", ErrorMessage = "Author can not contain numbers")]
         public string Author
         {
             get => _author;
@@ -50,18 +48,7 @@ namespace DataAnnotationsApp.ViewModels
             {
                 if (SetProperty(ref _author, value))
                 {
-                    var messages = new List<string>();
-                    if (value.Length > 20)
-                    {
-                        messages.Add("Author is less than 20 characters");
-                    }
-
-                    if (Regex.IsMatch(value, "\\d"))
-                    {
-                        messages.Add("Author can not contain numbers");
-                    }
-
-                    _errors.SetErrors(nameof(Author), messages);
+                    ValidateProperty(value);
                 }
             }
         }
@@ -74,6 +61,21 @@ namespace DataAnnotationsApp.ViewModels
 
             _errors = new ErrorsContainer<string>(RaiseErrorsChanged);
         }
+
+        protected void ValidateProperty(object value, [CallerMemberName] string propertyName = null)
+        {
+            var context = new ValidationContext(this) { MemberName = propertyName };
+            var validationErrors = new List<ValidationResult>();
+            if (!Validator.TryValidateProperty(value, context, validationErrors))
+            {
+                _errors.SetErrors(propertyName, validationErrors.Select(error => error.ErrorMessage));
+            }
+            else
+            {
+                _errors.ClearErrors(propertyName);
+            }
+        }
+
 
         private void ExecuteSaveCommand()
         {
