@@ -9,17 +9,17 @@ namespace StateBasedNavigationApp.ViewModels
 {
     public class BookVm
     {
-        private readonly Book _book;
+        internal Book Model { get; }
 
-        public int Id => _book.Id;
+        public int Id => Model.Id;
 
-        public string Title => _book.Title;
+        public string Title => Model.Title;
 
-        public string Author => _book.Author;
+        public string Author => Model.Author;
 
         public BookVm(Book book)
         {
-            _book = book;
+            Model = book;
         }
 
         public override string ToString()

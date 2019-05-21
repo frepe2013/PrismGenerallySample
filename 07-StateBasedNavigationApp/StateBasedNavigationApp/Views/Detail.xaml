@@ -44,9 +44,9 @@
                 <Label Content="ID："></Label>
                 <Label Content="{Binding Id}" HorizontalAlignment="Left"></Label>
             </StackPanel>
-            <TextBox Name="TitleBox" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+            <TextBox Name="TitleBox" Text="{Binding InputTitle, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
                      Style="{StaticResource ErrorStyle}"></TextBox>
-            <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+            <TextBox Text="{Binding InputAuthor, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
                      Style="{StaticResource ErrorStyle}"></TextBox>
             <Button Content="保存" Command="{Binding SaveCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
         </StackPanel>

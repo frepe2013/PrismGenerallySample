@@ -1,11 +1,13 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using StateBasedNavigationApp.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -16,8 +18,9 @@ namespace StateBasedNavigationApp.ViewModels
         private readonly ErrorsContainer<string> _errors;
 
         private int _id;
-        private string _title;
-        private string _author;
+        private string _inputTitle;
+        private string _inputAuthor;
+        private BookVm _bookVm;
 
         public int Id
         {
@@ -26,12 +29,12 @@ namespace StateBasedNavigationApp.ViewModels
         }
 
         [Required(ErrorMessage = "Title is required")]
-        public string Title
+        public string InputTitle
         {
-            get => _title;
+            get => _inputTitle;
             set
             {
-                if (SetProperty(ref _title, value))
+                if (SetProperty(ref _inputTitle, value))
                 {
                     ValidateProperty(value);
                 }
@@ -40,12 +43,12 @@ namespace StateBasedNavigationApp.ViewModels
 
         [StringLength(20, ErrorMessage = "Author is less than 20 characters")]
         [RegularExpression("[^0-9]*", ErrorMessage = "Author can not contain numbers")]
-        public string Author
+        public string InputAuthor
         {
-            get => _author;
+            get => _inputAuthor;
             set
             {
-                if (SetProperty(ref _author, value))
+                if (SetProperty(ref _inputAuthor, value))
                 {
                     ValidateProperty(value);
                 }
@@ -78,6 +81,15 @@ namespace StateBasedNavigationApp.ViewModels
 
         private void ExecuteSaveCommand()
         {
+            _bookVm.Model.Title = InputTitle;
+            _bookVm.Model.Author = InputAuthor;
+
+            using (var context = new ShelfContext())
+            {
+                var entry = context.Entry(_bookVm.Model);
+                entry.State = EntityState.Modified;
+                context.SaveChanges();
+            }
         }
 
         private bool CanExecuteSaveCommand()
@@ -91,8 +103,9 @@ namespace StateBasedNavigationApp.ViewModels
 
             var selectedBook = (BookVm)navigationContext.Parameters["book"];
             Id = selectedBook.Id;
-            Title = selectedBook.Title;
-            Author = selectedBook.Author;
+            InputTitle = selectedBook.Title;
+            InputAuthor = selectedBook.Author;
+            _bookVm = selectedBook;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
