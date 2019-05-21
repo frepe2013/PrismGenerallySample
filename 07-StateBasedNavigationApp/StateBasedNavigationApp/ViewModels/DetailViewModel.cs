@@ -71,7 +71,8 @@ namespace StateBasedNavigationApp.ViewModels
 
         public DetailViewModel()
         {
-            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);
+            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand)
+                .ObservesProperty(() => InputTitle).ObservesProperty(() => InputAuthor);
 
             _errors = new ErrorsContainer<string>(RaiseErrorsChanged);
         }
@@ -103,11 +104,12 @@ namespace StateBasedNavigationApp.ViewModels
             }
 
             _bookVm.IsEdited = false;
+            SaveCommand.RaiseCanExecuteChanged();
         }
 
         private bool CanExecuteSaveCommand()
         {
-            return true;
+            return (_bookVm?.IsEdited ?? false) && !HasErrors;
         }
 
         private bool IsObjectChanged()
