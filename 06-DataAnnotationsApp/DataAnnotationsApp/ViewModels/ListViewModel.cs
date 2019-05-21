@@ -1,12 +1,9 @@
-﻿using Prism.Commands;
+﻿using DataAnnotationsApp.Entities;
+using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DataAnnotationsApp.Entities;
-using ErrorsContainerApp.ViewModels;
-using Prism.Regions;
 
 namespace DataAnnotationsApp.ViewModels
 {
