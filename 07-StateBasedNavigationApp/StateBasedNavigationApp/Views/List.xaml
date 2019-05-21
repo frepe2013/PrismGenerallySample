@@ -12,7 +12,7 @@
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" />
-        <ListBox Grid.Row="1" x:Name="_listOfBooks" ItemsSource="{Binding Books}" SelectionMode="Single" Margin="5">
+        <ListBox Grid.Row="1" x:Name="_listOfBooks" ItemsSource="{Binding Books}" SelectionMode="Single" DisplayMemberPath="TitleForList" Margin="5">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <prism:InvokeCommandAction

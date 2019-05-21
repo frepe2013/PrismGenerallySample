@@ -37,6 +37,11 @@ namespace StateBasedNavigationApp.ViewModels
                 if (SetProperty(ref _inputTitle, value))
                 {
                     ValidateProperty(value);
+
+                    if (CanEdit)
+                    {
+                        _bookVm.IsEdited = IsObjectChanged();
+                    }
                 }
             }
         }
@@ -51,9 +56,16 @@ namespace StateBasedNavigationApp.ViewModels
                 if (SetProperty(ref _inputAuthor, value))
                 {
                     ValidateProperty(value);
+
+                    if (CanEdit)
+                    {
+                        _bookVm.IsEdited = IsObjectChanged();
+                    }
                 }
             }
         }
+
+        public bool CanEdit { get; set; }
 
         public DelegateCommand SaveCommand { get; set; }
 
@@ -78,7 +90,6 @@ namespace StateBasedNavigationApp.ViewModels
             }
         }
 
-
         private void ExecuteSaveCommand()
         {
             _bookVm.Model.Title = InputTitle;
@@ -90,11 +101,28 @@ namespace StateBasedNavigationApp.ViewModels
                 entry.State = EntityState.Modified;
                 context.SaveChanges();
             }
+
+            _bookVm.IsEdited = false;
         }
 
         private bool CanExecuteSaveCommand()
         {
             return true;
+        }
+
+        private bool IsObjectChanged()
+        {
+            if (InputTitle != _bookVm.Title)
+            {
+                return true;
+            }
+
+            if (InputAuthor != _bookVm.Author)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -106,6 +134,7 @@ namespace StateBasedNavigationApp.ViewModels
             InputTitle = selectedBook.Title;
             InputAuthor = selectedBook.Author;
             _bookVm = selectedBook;
+            CanEdit = true;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
