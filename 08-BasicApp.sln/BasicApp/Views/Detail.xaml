@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="BasicApp.Views.Detail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style x:Key="ErrorStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="4" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Background" Value="MistyRose"></Setter>
+                </Trigger>
+                <Trigger Property="IsVisible" Value="True">
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                    <ItemsControl DockPanel.Dock="Bottom" Margin="5,0"
+                                                  ItemsSource="{Binding ElementName=adornedElement, Path=AdornedElement.(Validation.Errors)}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Border BorderBrush="Red" BorderThickness="1"
+                                            Width="{Binding ElementName=adornedElement, Path=ActualWidth}"
+                                            Height="{Binding ElementName=adornedElement, Path=ActualHeight}">
+                                        <AdornedElementPlaceholder Name="adornedElement"/>
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Grid.Row="0" Margin="10,45,0,0">
+            <StackPanel Orientation="Horizontal" Margin="5,0,5,10">
+                <Label Content="ID："></Label>
+                <Label Content="{Binding Id}" HorizontalAlignment="Left"></Label>
+            </StackPanel>
+            <TextBox Name="TitleBox" Text="{Binding InputTitle, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+                     Style="{StaticResource ErrorStyle}"></TextBox>
+            <TextBox Text="{Binding InputAuthor, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+                     Style="{StaticResource ErrorStyle}"></TextBox>
+            <Button Content="保存" Command="{Binding SaveCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
