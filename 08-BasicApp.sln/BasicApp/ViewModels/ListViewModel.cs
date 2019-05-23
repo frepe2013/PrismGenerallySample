@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Prism.Regions;
 using BasicApp.Entities;
+using BasicApp.Views;
 
 namespace BasicApp.ViewModels
 {
@@ -14,6 +15,7 @@ namespace BasicApp.ViewModels
         private IRegionManager _regionManager;
 
         private ObservableCollection<BookVm> _books;
+        private string _message;
 
         public ObservableCollection<BookVm> Books
         {
@@ -21,7 +23,15 @@ namespace BasicApp.ViewModels
             set => SetProperty(ref _books, value);
         }
 
+        public string Message
+        {
+            get => _message;
+            set => SetProperty(ref _message, value);
+        }
+
         public DelegateCommand<BookVm> BookSelectedCommand { get; set; }
+
+        public DelegateCommand CreateCommand { get; set; }
 
         public ListViewModel(IRegionManager regionManager)
         {
@@ -35,6 +45,7 @@ namespace BasicApp.ViewModels
             }
 
             BookSelectedCommand = new DelegateCommand<BookVm>(ExecuteBookSelectedCommand);
+            CreateCommand = new DelegateCommand(ExecuteCreateCommand);
         }
 
         private void ExecuteBookSelectedCommand(BookVm data)
@@ -43,6 +54,18 @@ namespace BasicApp.ViewModels
 
             var parameters = new NavigationParameters { { "book", data } };
             _regionManager.RequestNavigate("RightRegion", "Detail", parameters);
+        }
+
+        private void ExecuteCreateCommand()
+        {
+            Message = string.Empty;
+            var create = new Create { Title = "Book Create" };
+            var ok = create.ShowDialog() ?? false;
+            if (ok)
+            {
+                CreateViewModel viewModel = (CreateViewModel) create.DataContext;
+                Message = $"Insert Complete! Title:{viewModel.InputTitle}";
+            }
         }
     }
 }

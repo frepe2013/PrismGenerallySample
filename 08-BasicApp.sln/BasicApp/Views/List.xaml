@@ -21,6 +21,9 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+            <Button Content="新規作成" Command="{Binding CreateCommand}" Width="70"></Button>
+            <TextBlock Text="{Binding Message}" Margin="20,0,0,0" VerticalAlignment="Center" Width="200"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>
