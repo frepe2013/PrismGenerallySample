@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using PopupWindowApp.Notifications;
+using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using System;
 using System.Collections;
@@ -10,12 +12,13 @@ using System.Runtime.CompilerServices;
 
 namespace PopupWindowApp.ViewModels
 {
-    public class CreateViewModel : BindableBase, INotifyDataErrorInfo
+    public class CreateViewModel : BindableBase, IInteractionRequestAware, INotifyDataErrorInfo
     {
         private readonly ErrorsContainer<string> _errors;
 
         private string _inputTitle;
         private string _inputAuthor;
+        private IBookCreate _notification;
 
         [Required(ErrorMessage = "Title is required")]
         public string InputTitle
@@ -70,12 +73,34 @@ namespace PopupWindowApp.ViewModels
 
         private void ExecuteSaveCommand()
         {
-            throw new NotImplementedException();
+            ValidateProperty(_inputTitle, nameof(InputTitle));
+            ValidateProperty(_inputAuthor, nameof(InputAuthor));
+            if (HasErrors) return;
+
+            _notification.BookTitle = InputTitle;
+            _notification.BookAuthor = InputAuthor;
+            _notification.Confirmed = true;
+
+            FinishInteraction?.Invoke();
         }
 
         private bool CanExecuteSaveCommand()
         {
-            return true;
+            return !HasErrors;
+        }
+
+        public Action FinishInteraction { get; set; }
+
+        public INotification Notification
+        {
+            get => _notification;
+            set
+            {
+                SetProperty(ref _notification, (IBookCreate)value);
+                InputTitle = "";
+                InputAuthor = "";
+                _errors.ClearErrors();
+            }
         }
 
         private void RaiseErrorsChanged([CallerMemberName] string propertyName = null)
