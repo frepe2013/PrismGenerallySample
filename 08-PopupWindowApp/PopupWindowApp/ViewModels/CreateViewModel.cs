@@ -49,10 +49,13 @@ namespace PopupWindowApp.ViewModels
 
         public DelegateCommand SaveCommand { get; set; }
 
+        public DelegateCommand CancelCommand { get; set; }
+
         public CreateViewModel()
         {
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand)
                 .ObservesProperty(() => InputTitle).ObservesProperty(() => InputAuthor);
+            CancelCommand = new DelegateCommand(ExecuteCancelCommand);
 
             _errors = new ErrorsContainer<string>(RaiseErrorsChanged);
         }
@@ -87,6 +90,12 @@ namespace PopupWindowApp.ViewModels
         private bool CanExecuteSaveCommand()
         {
             return !HasErrors;
+        }
+
+        private void ExecuteCancelCommand()
+        {
+            _notification.Confirmed = false;
+            FinishInteraction?.Invoke();
         }
 
         public Action FinishInteraction { get; set; }

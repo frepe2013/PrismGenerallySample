@@ -44,9 +44,9 @@ namespace BasicApp.ViewModels
             }
         }
 
-        public bool IsEdited { get; set; } = false;
-
         public DelegateCommand SaveCommand { get; set; }
+
+        public DelegateCommand CancelCommand { get; set; }
 
         public Action<bool> CloseDialogBox { get; set; }
 
@@ -54,6 +54,7 @@ namespace BasicApp.ViewModels
         {
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand)
                 .ObservesProperty(() => InputTitle).ObservesProperty(() => InputAuthor);
+            CancelCommand = new DelegateCommand(ExecuteCancelCommand);
 
             _errors = new ErrorsContainer<string>(RaiseErrorsChanged);
         }
@@ -84,6 +85,11 @@ namespace BasicApp.ViewModels
         private bool CanExecuteSaveCommand()
         {
             return !HasErrors;
+        }
+
+        private void ExecuteCancelCommand()
+        {
+            CloseDialogBox(false);
         }
 
         private void RaiseErrorsChanged([CallerMemberName] string propertyName = null)

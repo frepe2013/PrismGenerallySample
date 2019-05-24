@@ -44,7 +44,14 @@
                      Style="{StaticResource ErrorStyle}"></TextBox>
             <TextBox Text="{Binding InputAuthor, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
                      Style="{StaticResource ErrorStyle}"></TextBox>
-            <Button Content="保存" Command="{Binding SaveCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="保存" Command="{Binding SaveCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
+                <Button Grid.Column="1" Content="キャンセル" Command="{Binding CancelCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
