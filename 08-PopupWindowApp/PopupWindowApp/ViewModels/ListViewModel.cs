@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Prism.Regions;
 using PopupWindowApp.Entities;
+using PopupWindowApp.Notifications;
+using Prism.Interactivity.InteractionRequest;
 
 namespace PopupWindowApp.ViewModels
 {
@@ -14,6 +16,7 @@ namespace PopupWindowApp.ViewModels
         private IRegionManager _regionManager;
 
         private ObservableCollection<BookVm> _books;
+        private string _message;
 
         public ObservableCollection<BookVm> Books
         {
@@ -21,7 +24,17 @@ namespace PopupWindowApp.ViewModels
             set => SetProperty(ref _books, value);
         }
 
+        public string Message
+        {
+            get => _message;
+            set => SetProperty(ref _message, value);
+        }
+
         public DelegateCommand<BookVm> BookSelectedCommand { get; set; }
+
+        public InteractionRequest<IBookCreate> CreateRequest { get; set; }
+
+        public DelegateCommand CreateCommand { get; set; }
 
         public ListViewModel(IRegionManager regionManager)
         {
@@ -35,6 +48,9 @@ namespace PopupWindowApp.ViewModels
             }
 
             BookSelectedCommand = new DelegateCommand<BookVm>(ExecuteBookSelectedCommand);
+
+            CreateRequest = new InteractionRequest<IBookCreate>();
+            CreateCommand = new DelegateCommand(ExecuteCreateCommand);
         }
 
         private void ExecuteBookSelectedCommand(BookVm data)
@@ -43,6 +59,23 @@ namespace PopupWindowApp.ViewModels
 
             var parameters = new NavigationParameters { { "book", data } };
             _regionManager.RequestNavigate("RightRegion", "Detail", parameters);
+        }
+
+        private void ExecuteCreateCommand()
+        {
+            Message = string.Empty;
+            CreateRequest.Raise(
+                new BookCreate
+                {
+                    Title = "Book Create"
+                },
+                c =>
+                {
+                    if (c.Confirmed)
+                    {
+                        Message = $"Insert Complete! Title:{c.BookTitle}";
+                    }
+                });
         }
     }
 }

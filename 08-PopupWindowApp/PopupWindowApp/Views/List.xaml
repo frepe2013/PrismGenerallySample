@@ -1,10 +1,20 @@
 ﻿<UserControl x:Class="PopupWindowApp.Views.List"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:views="clr-namespace:PopupWindowApp.Views"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Height="550" Width="380">
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding CreateRequest}">
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <views:Create></views:Create>
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
@@ -21,6 +31,9 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+            <Button Content="新規作成" Command="{Binding CreateCommand}" Width="70"></Button>
+            <TextBlock Text="{Binding Message}" Margin="20,0,0,0" VerticalAlignment="Center" Width="200"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>
