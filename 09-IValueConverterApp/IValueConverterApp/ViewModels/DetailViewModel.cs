@@ -20,6 +20,7 @@ namespace IValueConverterApp.ViewModels
         private int _id;
         private string _inputTitle;
         private string _inputAuthor;
+        private Gender _authorGender;
         private BookVm _bookVm;
 
         public int Id
@@ -65,6 +66,21 @@ namespace IValueConverterApp.ViewModels
             }
         }
 
+        public Gender AuthorGender
+        {
+            get => _authorGender;
+            set
+            {
+                if (SetProperty(ref _authorGender, value))
+                {
+                    if (CanEdit)
+                    {
+                        _bookVm.IsEdited = IsObjectChanged();
+                    }
+                }
+            }
+        }
+
         public bool CanEdit { get; set; }
 
         public DelegateCommand SaveCommand { get; set; }
@@ -72,7 +88,9 @@ namespace IValueConverterApp.ViewModels
         public DetailViewModel()
         {
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand)
-                .ObservesProperty(() => InputTitle).ObservesProperty(() => InputAuthor);
+                .ObservesProperty(() => InputTitle)
+                .ObservesProperty(() => InputAuthor)
+                .ObservesProperty(() => AuthorGender);
 
             _errors = new ErrorsContainer<string>(RaiseErrorsChanged);
         }
@@ -95,6 +113,7 @@ namespace IValueConverterApp.ViewModels
         {
             _bookVm.Model.Title = InputTitle;
             _bookVm.Model.Author = InputAuthor;
+            _bookVm.Model.AuthorGender = AuthorGender.ToString();
 
             using (var context = new ShelfContext())
             {
@@ -124,6 +143,11 @@ namespace IValueConverterApp.ViewModels
                 return true;
             }
 
+            if (AuthorGender != _bookVm.AuthorGender)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -135,6 +159,7 @@ namespace IValueConverterApp.ViewModels
             Id = selectedBook.Id;
             InputTitle = selectedBook.Title;
             InputAuthor = selectedBook.Author;
+            AuthorGender = selectedBook.AuthorGender;
             _bookVm = selectedBook;
             CanEdit = true;
         }

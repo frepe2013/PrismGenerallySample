@@ -13,9 +13,9 @@ namespace IValueConverterApp.Entities
         {
             var books = new List<Book>
             {
-                new Book {Title = "Test-Driven Development", Author = "Kent Beck"},
-                new Book {Title = "The Healthy Programmer", Author = "Joe Kutner"},
-                new Book {Title = "Effective C#", Author = "Bill Wagner"},
+                new Book {Title = "Test-Driven Development", Author = "Kent Beck", AuthorGender = "Male"},
+                new Book {Title = "The Healthy Programmer", Author = "Joe Kutner", AuthorGender = "Male"},
+                new Book {Title = "Effective C#", Author = "Bill Wagner", AuthorGender = "Male"},
             };
             context.Books.AddRange(books);
             context.SaveChanges();

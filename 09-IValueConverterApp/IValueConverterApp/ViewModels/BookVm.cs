@@ -20,6 +20,21 @@ namespace IValueConverterApp.ViewModels
 
         public string Author => Model.Author;
 
+        public Gender AuthorGender
+        {
+            get
+            {
+                if (Enum.TryParse(Model.AuthorGender, out Gender gender))
+                {
+                    return gender;
+                }
+                else
+                {
+                    return Gender.Male;
+                }
+            }
+        }
+
         public string TitleForList
         {
             get
