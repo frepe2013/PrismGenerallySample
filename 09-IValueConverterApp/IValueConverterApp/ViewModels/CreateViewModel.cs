@@ -18,6 +18,7 @@ namespace IValueConverterApp.ViewModels
 
         private string _inputTitle;
         private string _inputAuthor;
+        private Gender _authorGender;
         private IBookCreate _notification;
 
         [Required(ErrorMessage = "Title is required")]
@@ -46,6 +47,13 @@ namespace IValueConverterApp.ViewModels
                 }
             }
         }
+
+        public Gender AuthorGender
+        {
+            get => _authorGender;
+            set => SetProperty(ref _authorGender, value);
+        }
+
 
         public DelegateCommand SaveCommand { get; set; }
 
@@ -82,6 +90,7 @@ namespace IValueConverterApp.ViewModels
 
             _notification.BookTitle = InputTitle;
             _notification.BookAuthor = InputAuthor;
+            _notification.AuthorGender = _authorGender;
             _notification.Confirmed = true;
 
             FinishInteraction?.Invoke();
