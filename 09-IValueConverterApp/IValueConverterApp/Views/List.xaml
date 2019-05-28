@@ -8,11 +8,7 @@
              Height="550" Width="380">
     <i:Interaction.Triggers>
         <prism:InteractionRequestTrigger SourceObject="{Binding CreateRequest}">
-            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
-                <prism:PopupWindowAction.WindowContent>
-                    <views:Create></views:Create>
-                </prism:PopupWindowAction.WindowContent>
-            </prism:PopupWindowAction>
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" WindowContentType="{x:Type views:Create}" />
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <Grid>
