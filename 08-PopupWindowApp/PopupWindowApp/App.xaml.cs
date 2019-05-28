@@ -20,6 +20,7 @@ namespace PopupWindowApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<Detail>();
+            containerRegistry.RegisterForNavigation<Create>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

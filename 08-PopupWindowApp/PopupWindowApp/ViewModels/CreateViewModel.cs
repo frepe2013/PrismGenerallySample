@@ -103,13 +103,7 @@ namespace PopupWindowApp.ViewModels
         public INotification Notification
         {
             get => _notification;
-            set
-            {
-                SetProperty(ref _notification, (IBookCreate)value);
-                InputTitle = "";
-                InputAuthor = "";
-                _errors.ClearErrors();
-            }
+            set => SetProperty(ref _notification, (IBookCreate)value);
         }
 
         private void RaiseErrorsChanged([CallerMemberName] string propertyName = null)
