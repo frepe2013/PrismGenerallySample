@@ -78,6 +78,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\BaseRepository.cs" />
+    <Compile Include="DAL\BookRepository.cs" />
+    <Compile Include="DAL\IBookRepository.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\DbInitializer.cs" />
     <Compile Include="Entities\ShelfContext.cs" />

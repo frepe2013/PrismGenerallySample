@@ -1,13 +1,12 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using RepositoryApp.Entities;
+using RepositoryApp.DAL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -22,6 +21,7 @@ namespace RepositoryApp.ViewModels
         private string _inputAuthor;
         private Gender _authorGender;
         private BookVm _bookVm;
+        private IBookRepository _repository;
 
         public int Id
         {
@@ -85,8 +85,10 @@ namespace RepositoryApp.ViewModels
 
         public DelegateCommand SaveCommand { get; set; }
 
-        public DetailViewModel()
+        public DetailViewModel(IBookRepository repository)
         {
+            _repository = repository;
+
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand)
                 .ObservesProperty(() => InputTitle)
                 .ObservesProperty(() => InputAuthor)
@@ -115,12 +117,8 @@ namespace RepositoryApp.ViewModels
             _bookVm.Model.Author = InputAuthor;
             _bookVm.Model.AuthorGender = AuthorGender.ToString();
 
-            using (var context = new ShelfContext())
-            {
-                var entry = context.Entry(_bookVm.Model);
-                entry.State = EntityState.Modified;
-                context.SaveChanges();
-            }
+            _repository.Update(_bookVm.Model);
+            _repository.Save();
 
             _bookVm.IsEdited = false;
             SaveCommand.RaiseCanExecuteChanged();

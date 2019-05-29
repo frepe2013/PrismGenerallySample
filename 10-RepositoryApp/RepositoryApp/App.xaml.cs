@@ -3,6 +3,7 @@ using RepositoryApp.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
+using RepositoryApp.DAL;
 using RepositoryApp.Entities;
 
 namespace RepositoryApp
@@ -21,6 +22,9 @@ namespace RepositoryApp
         {
             containerRegistry.RegisterForNavigation<Detail>();
             containerRegistry.RegisterForNavigation<Create>();
+
+            containerRegistry.Register<ShelfContext>();
+            containerRegistry.Register<IBookRepository, BookRepository>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
