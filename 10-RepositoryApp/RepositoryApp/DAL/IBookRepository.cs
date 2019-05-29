@@ -11,6 +11,8 @@ namespace RepositoryApp.DAL
     {
         IList<Book> FindAll();
 
+        Book Insert(Book model);
+
         void Update(Book model);
 
         void Save();
