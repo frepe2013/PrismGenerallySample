@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="RepositoryApp.Views.Create"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:vms="clr-namespace:RepositoryApp.ViewModels"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style x:Key="ErrorStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="4" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Background" Value="MistyRose"></Setter>
+                </Trigger>
+                <Trigger Property="IsVisible" Value="True">
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                    <ItemsControl DockPanel.Dock="Bottom" Margin="5,0"
+                                                  ItemsSource="{Binding ElementName=adornedElement, Path=AdornedElement.(Validation.Errors)}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Border BorderBrush="Red" BorderThickness="1"
+                                            Width="{Binding ElementName=adornedElement, Path=ActualWidth}"
+                                            Height="{Binding ElementName=adornedElement, Path=ActualHeight}">
+                                        <AdornedElementPlaceholder Name="adornedElement"/>
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <vms:GenderToBoolConverter x:Key="BoolConverter"></vms:GenderToBoolConverter>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Grid.Row="0" Margin="10,45,0,0">
+            <TextBox Name="TitleBox" Text="{Binding InputTitle, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+                     Style="{StaticResource ErrorStyle}"></TextBox>
+            <TextBox Text="{Binding InputAuthor, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5,0,5,20" HorizontalAlignment="Left"
+                     Style="{StaticResource ErrorStyle}"></TextBox>
+            <RadioButton Content="男性" IsChecked="{Binding AuthorGender, ConverterParameter=Male, Converter={StaticResource BoolConverter}}" Margin="5,0"></RadioButton>
+            <RadioButton Content="女性" IsChecked="{Binding AuthorGender, ConverterParameter=Female, Converter={StaticResource BoolConverter}}" Margin="5,0"></RadioButton>
+            <RadioButton Content="その他" IsChecked="{Binding AuthorGender, ConverterParameter=Other, Converter={StaticResource BoolConverter}}" Margin="5,0"></RadioButton>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="保存" Command="{Binding SaveCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
+                <Button Grid.Column="1" Content="キャンセル" Command="{Binding CancelCommand}" Width="50" Margin="10" HorizontalAlignment="Left"></Button>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>
