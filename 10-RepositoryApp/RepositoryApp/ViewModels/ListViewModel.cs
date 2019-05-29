@@ -1,19 +1,18 @@
 ﻿using Prism.Commands;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
+using Prism.Regions;
+using RepositoryApp.DAL;
+using RepositoryApp.Notifications;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Prism.Regions;
-using RepositoryApp.Entities;
-using RepositoryApp.Notifications;
-using Prism.Interactivity.InteractionRequest;
 
 namespace RepositoryApp.ViewModels
 {
     public class ListViewModel : BindableBase
     {
         private IRegionManager _regionManager;
+        private IBookRepository _repository;
 
         private ObservableCollection<BookVm> _books;
         private string _message;
@@ -36,21 +35,25 @@ namespace RepositoryApp.ViewModels
 
         public DelegateCommand CreateCommand { get; set; }
 
-        public ListViewModel(IRegionManager regionManager)
+        public ListViewModel(IRegionManager regionManager, IBookRepository repository)
         {
             _regionManager = regionManager;
-            Books = new ObservableCollection<BookVm>();
-            using (var context = new ShelfContext())
-            {
-                var bookList = context.Books.ToList();
-                var vms = bookList.Select(book => new BookVm(book));
-                Books.AddRange(vms);
-            }
+            _repository = repository;
 
             BookSelectedCommand = new DelegateCommand<BookVm>(ExecuteBookSelectedCommand);
 
             CreateRequest = new InteractionRequest<IBookCreate>();
             CreateCommand = new DelegateCommand(ExecuteCreateCommand);
+
+            LoadList();
+        }
+
+        private void LoadList()
+        {
+            var bookList = _repository.FindAll();
+
+            var vms = bookList.Select(book => new BookVm(book));
+            Books = new ObservableCollection<BookVm>(vms);
         }
 
         private void ExecuteBookSelectedCommand(BookVm data)

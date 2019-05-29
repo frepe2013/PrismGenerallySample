@@ -9,6 +9,8 @@ namespace RepositoryApp.DAL
 {
     public interface IBookRepository
     {
+        IList<Book> FindAll();
+
         void Update(Book model);
 
         void Save();

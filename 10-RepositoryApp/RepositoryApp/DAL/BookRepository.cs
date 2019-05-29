@@ -17,6 +17,11 @@ namespace RepositoryApp.DAL
             Context = context;
         }
 
+        public IList<Book> FindAll()
+        {
+            return Context.Books.ToList();
+        }
+
         public void Update(Book model)
         {
             var entry = Context.Entry(model);
