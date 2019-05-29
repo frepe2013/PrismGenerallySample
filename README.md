@@ -13,10 +13,10 @@ WPF sample combining multiple Prism features
 - BindableBase
 - Navigation
 - DelegateCommand
-- InteractionRequest
 - ErrorsContainer
+- InteractionRequest
 ### Validation
-- Data Annotations Validate
 - INotifyDataErrorInfo
+- DataAnnotations Validate
 ### Other
-- ValueConverter(Radio Button Binding)
+- IValueConverter(Radio Button Binding)
