@@ -86,6 +86,8 @@
     <Compile Include="Entities\ShelfContext.cs" />
     <Compile Include="Notifications\BookCreate.cs" />
     <Compile Include="Notifications\IBookCreate.cs" />
+    <Compile Include="Services\IShelfService.cs" />
+    <Compile Include="Services\ShelfService.cs" />
     <Compile Include="ViewModels\BookVm.cs" />
     <Compile Include="ViewModels\CreateViewModel.cs" />
     <Compile Include="ViewModels\DetailViewModel.cs" />

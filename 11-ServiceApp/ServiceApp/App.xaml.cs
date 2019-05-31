@@ -5,6 +5,7 @@ using Prism.Modularity;
 using System.Windows;
 using ServiceApp.DAL;
 using ServiceApp.Entities;
+using ServiceApp.Services;
 
 namespace ServiceApp
 {
@@ -24,6 +25,7 @@ namespace ServiceApp
             containerRegistry.RegisterForNavigation<Create>();
 
             containerRegistry.Register<ShelfContext>();
+            containerRegistry.Register<IShelfService, ShelfService>();
             containerRegistry.Register<IBookRepository, BookRepository>();
         }
 

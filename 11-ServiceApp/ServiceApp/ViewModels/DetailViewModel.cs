@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using ServiceApp.DAL;
+using ServiceApp.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace ServiceApp.ViewModels
         private string _inputAuthor;
         private Gender _authorGender;
         private BookVm _bookVm;
-        private IBookRepository _repository;
+        private IShelfService _service;
 
         public int Id
         {
@@ -85,9 +85,9 @@ namespace ServiceApp.ViewModels
 
         public DelegateCommand SaveCommand { get; set; }
 
-        public DetailViewModel(IBookRepository repository)
+        public DetailViewModel(IShelfService service)
         {
-            _repository = repository;
+            _service = service;
 
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand)
                 .ObservesProperty(() => InputTitle)
@@ -113,12 +113,7 @@ namespace ServiceApp.ViewModels
 
         private void ExecuteSaveCommand()
         {
-            _bookVm.Model.Title = InputTitle;
-            _bookVm.Model.Author = InputAuthor;
-            _bookVm.Model.AuthorGender = AuthorGender.ToString();
-
-            _repository.Update(_bookVm.Model);
-            _repository.Save();
+            _service.Update(_bookVm, InputTitle, InputAuthor, AuthorGender);
 
             _bookVm.IsEdited = false;
             SaveCommand.RaiseCanExecuteChanged();

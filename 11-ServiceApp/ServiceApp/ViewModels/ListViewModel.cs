@@ -2,18 +2,16 @@
 using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Prism.Regions;
-using ServiceApp.DAL;
-using ServiceApp.Entities;
 using ServiceApp.Notifications;
+using ServiceApp.Services;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace ServiceApp.ViewModels
 {
     public class ListViewModel : BindableBase
     {
         private IRegionManager _regionManager;
-        private IBookRepository _repository;
+        private IShelfService _service;
 
         private ObservableCollection<BookVm> _books;
         private BookVm _targetBook;
@@ -43,10 +41,10 @@ namespace ServiceApp.ViewModels
 
         public DelegateCommand CreateCommand { get; set; }
 
-        public ListViewModel(IRegionManager regionManager, IBookRepository repository)
+        public ListViewModel(IRegionManager regionManager, IShelfService service)
         {
             _regionManager = regionManager;
-            _repository = repository;
+            _service = service;
 
             BookSelectedCommand = new DelegateCommand<BookVm>(ExecuteBookSelectedCommand);
 
@@ -60,9 +58,7 @@ namespace ServiceApp.ViewModels
         {
             TargetBook = null; //SelectedItemをクリアしないと、リストの表示を更新する時にエラーになる
 
-            var bookList = _repository.FindAll();
-
-            var vms = bookList.Select(book => new BookVm(book));
+            var vms = _service.GetList();
             Books = new ObservableCollection<BookVm>(vms);
 
             _regionManager.Regions["RightRegion"].RemoveAll(); //これをしないとRightRegionに表示した値を編集してもリストに反映されない
@@ -89,17 +85,9 @@ namespace ServiceApp.ViewModels
                     if (c.Confirmed)
                     {
                         //DB登録処理
-                        var book = new Book
-                        {
-                            Title = c.BookTitle,
-                            Author = c.BookAuthor,
-                            AuthorGender = c.AuthorGender.ToString()
-                        };
+                        var bookVm = _service.Create(c.BookTitle, c.BookAuthor, c.AuthorGender);
 
-                        _repository.Insert(book);
-                        _repository.Save();
-
-                        Message = $"Insert Complete! Title:{c.BookTitle}";
+                        Message = $"Insert Complete! ID:{bookVm.Id}, Title:{bookVm.Title}";
 
                         //表示更新
                         LoadList();
