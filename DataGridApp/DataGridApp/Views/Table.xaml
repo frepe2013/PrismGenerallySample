@@ -1,16 +1,17 @@
 ﻿<UserControl x:Class="DataGridApp.Views.Table"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Title}" Header="タイトル"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Author}" Header="著者名"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Status}" Header="ステータス"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding CheckoutDate, StringFormat=yyyy/MM/dd}" Header="貸出日"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding ReturnDate, StringFormat=yyyy/MM/dd}" Header="返却日"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding DisplayStatus, Mode=OneWay}" Header="ステータス"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding CheckoutDate, StringFormat=yyyy/MM/dd, TargetNullValue={x:Static sys:String.Empty}}" Header="貸出日"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding ReturnDate, StringFormat=yyyy/MM/dd, TargetNullValue={x:Static sys:String.Empty}}" Header="返却日"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

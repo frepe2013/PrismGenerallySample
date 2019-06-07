@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Prism.Mvvm;
 
 namespace DataGridApp.ViewModels
 {
     public class BookVm : BindableBase
     {
+        private static readonly Dictionary<Status, string> StatusDictionary = new Dictionary<Status, string>
+        {
+            {Status.CanLend, "貸出可能"},
+            {Status.Lending, "貸出中"},
+            {Status.NotReady, "準備中"},
+        };
+
         private string _title;
         private string _author;
         private Status _status;
@@ -30,19 +34,58 @@ namespace DataGridApp.ViewModels
         public Status Status
         {
             get => _status;
-            set => SetProperty(ref _status, value);
+            set
+            {
+                _status = value;
+
+                RaisePropertyChanged(nameof(DisplayStatus));
+            }
         }
+
+        public string DisplayStatus => StatusDictionary[Status];
 
         public DateTime? CheckoutDate
         {
             get => _checkoutDate;
-            set => SetProperty(ref _checkoutDate, value);
+            set
+            {
+                if (SetProperty(ref _checkoutDate, value))
+                {
+                    Status = GetStatus();
+                }
+            }
         }
 
         public DateTime? ReturnDate
         {
             get => _returnDate;
-            set => SetProperty(ref _returnDate, value);
+            set
+            {
+                if (SetProperty(ref _returnDate, value))
+                {
+                    Status = GetStatus();
+                }
+            }
+        }
+
+        private Status GetStatus()
+        {
+            if (CheckoutDate == null && ReturnDate == null)
+            {
+                return Status.CanLend;
+            }
+
+            if (CheckoutDate != null && ReturnDate == null)
+            {
+                return Status.Lending;
+            }
+
+            if (CheckoutDate != null && ReturnDate != null)
+            {
+                return Status.NotReady;
+            }
+
+            throw new Exception();
         }
     }
 }
