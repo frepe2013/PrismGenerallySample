@@ -4,14 +4,51 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <!-- DataGridでフォーカスのないセルはTextBlock -->
+        <Style x:Key="ErrorStyle1" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Background" Value="MistyRose" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- DataGridでフォーカスのあるセルはTextBox -->
+        <Style x:Key="ErrorStyle2" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Background" Value="MistyRose" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="200" VerticalAlignment="Top">
+        <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="200"
+                  VerticalAlignment="Top">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Title}" Header="タイトル"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Author}" Header="著者名"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding DisplayStatus, Mode=OneWay}" Header="ステータス"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding CheckoutDate, StringFormat=yyyy/MM/dd, TargetNullValue={x:Static sys:String.Empty}}" Header="貸出日"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding ReturnDate, StringFormat=yyyy/MM/dd, TargetNullValue={x:Static sys:String.Empty}}" Header="返却日"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Header="タイトル"
+                                    ElementStyle="{StaticResource ErrorStyle1}"
+                                    EditingElementStyle="{StaticResource ErrorStyle2}" />
+                <DataGridTextColumn Binding="{Binding Author, UpdateSourceTrigger=PropertyChanged}" Header="著者名"
+                                    ElementStyle="{StaticResource ErrorStyle1}"
+                                    EditingElementStyle="{StaticResource ErrorStyle2}" />
+                <DataGridTextColumn Binding="{Binding DisplayStatus, Mode=OneWay}" Header="ステータス"
+                                    ElementStyle="{StaticResource ErrorStyle1}"
+                                    EditingElementStyle="{StaticResource ErrorStyle2}" />
+                <DataGridTextColumn
+                    Binding="{Binding CheckoutDate, StringFormat=yyyy/MM/dd, TargetNullValue={x:Static sys:String.Empty}}"
+                    Header="貸出日"
+                    ElementStyle="{StaticResource ErrorStyle1}"
+                    EditingElementStyle="{StaticResource ErrorStyle2}" />
+                <DataGridTextColumn
+                    Binding="{Binding ReturnDate, StringFormat=yyyy/MM/dd, TargetNullValue={x:Static sys:String.Empty}}"
+                    Header="返却日"
+                    ElementStyle="{StaticResource ErrorStyle1}"
+                    EditingElementStyle="{StaticResource ErrorStyle2}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DataGridApp.Entities;
 
 namespace DataGridApp.ViewModels
 {
@@ -19,12 +20,24 @@ namespace DataGridApp.ViewModels
 
         public TableViewModel()
         {
-            Books = new ObservableCollection<BookVm>
+            //Books = new ObservableCollection<BookVm>
+            //{
+            //    new BookVm {Title = "Test-Driven Development", Author = "Kent Beck", Status = Status.Lending, CheckoutDate = new DateTime(2019,5,1), ReturnDate = null},
+            //    new BookVm {Title = "The Healthy Programmer", Author = "Joe Kutner", Status = Status.CanLend, CheckoutDate = null,ReturnDate = null},
+            //    new BookVm {Title = "Effective C#", Author = "Bill Wagner", Status = Status.NotReady, CheckoutDate = new DateTime(2019,4,1), ReturnDate = new DateTime(2019,5,1)}
+            //};
+            Books = new ObservableCollection<BookVm>();
+            using (var context = new ShelfContext())
             {
-                new BookVm {Title = "Test-Driven Development", Author = "Kent Beck", Status = Status.Lending, CheckoutDate = new DateTime(2019,5,1), ReturnDate = null},
-                new BookVm {Title = "The Healthy Programmer", Author = "Joe Kutner", Status = Status.CanLend, CheckoutDate = null,ReturnDate = null},
-                new BookVm {Title = "Effective C#", Author = "Bill Wagner", Status = Status.NotReady, CheckoutDate = new DateTime(2019,4,1), ReturnDate = new DateTime(2019,5,1)}
-            };
+                var bookList = context.Books.ToList();
+                var vms = bookList.Select(book => new BookVm
+                {
+                    Title = book.Title,
+                    Author = book.Author,
+                    Status = Status.CanLend
+                });
+                Books.AddRange(vms);
+            }
         }
     }
 }
