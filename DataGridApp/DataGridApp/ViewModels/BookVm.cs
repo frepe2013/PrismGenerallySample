@@ -96,23 +96,32 @@ namespace DataGridApp.ViewModels
 
         private Status GetStatus()
         {
-            if (CheckoutDate == null && ReturnDate == null)
+            if (CheckoutDate == null && ReturnDate != null)
             {
-                return Status.CanLend;
-            }
+                //セルのエラーを解消しても行全体エラー表示が消えないため、行エラーは使用しない。
+                _errors.SetErrors(nameof(ReturnDate), new[] {"Logic Error"});
 
-            if (CheckoutDate != null && ReturnDate == null)
+                return Status;
+            }
+            else
             {
-                return Status.Lending;
-            }
+                _errors.ClearErrors(nameof(ReturnDate));
 
-            if (CheckoutDate != null && ReturnDate != null)
-            {
-                return Status.NotReady;
-            }
+                if (CheckoutDate == null && ReturnDate == null)
+                {
+                    return Status.CanLend;
+                }
 
-            //TODO Row全体エラーにする
-            //_errors.SetErrors(nameof(DisplayStatus), new[] { "Logic Error" });　
+                if (CheckoutDate != null && ReturnDate == null)
+                {
+                    return Status.Lending;
+                }
+
+                if (CheckoutDate != null && ReturnDate != null)
+                {
+                    return Status.NotReady;
+                }
+            }
 
             return Status;
         }

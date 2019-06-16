@@ -50,6 +50,12 @@
                     ElementStyle="{StaticResource ErrorStyle1}"
                     EditingElementStyle="{StaticResource ErrorStyle2}" />
             </DataGrid.Columns>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="ValidationErrorTemplate" Value="{x:Null}"></Setter>
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
     </Grid>
 </UserControl>
