@@ -16,7 +16,8 @@ namespace WizardApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterForNavigation<Second>();
+            containerRegistry.RegisterForNavigation<Third>();
         }
     }
 }

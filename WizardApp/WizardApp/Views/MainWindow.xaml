@@ -4,7 +4,12 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525" >
-    <Grid>
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="#FF043957">
+            <Button Command="{Binding PrevCommand}" Margin="320,10,0,10" VerticalAlignment="Center" Width="40" Height="25">Prev</Button>
+            <Button Command="{Binding NextCommand}" Margin="0,10,0,10" VerticalAlignment="Center" Width="40" Height="25">Next</Button>
+            <Button Command="{Binding FinishCommand}" Margin="40,10,0,10" VerticalAlignment="Center" Width="50" Height="25">Finish</Button>
+        </StackPanel>
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
-    </Grid>
+    </DockPanel>
 </Window>

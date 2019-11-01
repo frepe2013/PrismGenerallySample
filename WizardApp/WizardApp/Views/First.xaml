@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="WizardApp.Views.First"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="300" Width="500">
+    <Grid>
+        <TextBlock Text="First View" FontSize="48" />
+    </Grid>
+</UserControl>
