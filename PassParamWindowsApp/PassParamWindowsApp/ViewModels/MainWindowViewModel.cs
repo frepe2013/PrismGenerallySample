@@ -5,6 +5,7 @@ namespace PassParamWindowsApp.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private string _title = "Prism Application";
+
         public string Title
         {
             get { return _title; }
@@ -13,7 +14,6 @@ namespace PassParamWindowsApp.ViewModels
 
         public MainWindowViewModel()
         {
-
         }
     }
 }

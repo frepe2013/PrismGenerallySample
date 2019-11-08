@@ -3,8 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525" >
+        Title="{Binding Title}" Height="200" Width="300">
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Height="25" Margin="80,0,10,0">Message:</TextBlock>
+            <TextBox Name="MassageBox" Width="100" Height="25" />
+        </StackPanel>
+        <Button Grid.Row="1" Height="25" Width="50" Click="Button_Click">start</Button>
     </Grid>
 </Window>
