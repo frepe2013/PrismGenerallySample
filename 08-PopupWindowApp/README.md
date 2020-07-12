@@ -1,4 +1,4 @@
-# DataAnnotationsApp
+# PopupWindowApp
 WPF sample using Prism
 
 ### Pattern

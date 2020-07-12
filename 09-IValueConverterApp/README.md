@@ -1,4 +1,4 @@
-# DataAnnotationsApp
+# IValueConverterApp
 WPF sample using Prism
 
 ### Pattern

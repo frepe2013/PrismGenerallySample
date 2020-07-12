@@ -1,4 +1,4 @@
-# DataAnnotationsApp
+# StateBasedNavigationApp
 WPF sample using Prism
 
 ### Pattern

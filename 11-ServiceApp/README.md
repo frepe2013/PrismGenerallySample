@@ -1,4 +1,4 @@
-# DataAnnotationsApp
+# ServiceApp
 WPF sample using Prism
 
 ### Pattern

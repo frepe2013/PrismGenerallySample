@@ -1,4 +1,4 @@
-# DelegateCommandApp
+# EntityFrameworkApp
 WPF sample using Prism
 
 ### Pattern

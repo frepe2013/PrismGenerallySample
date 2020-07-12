@@ -1,4 +1,4 @@
-# DataAnnotationsApp
+# RepositoryApp
 WPF sample using Prism
 
 ### Pattern
