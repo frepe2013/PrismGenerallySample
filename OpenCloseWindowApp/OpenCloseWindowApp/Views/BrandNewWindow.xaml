@@ -5,6 +5,6 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              Title="{Binding Title}" Height="350" Width="525" >
     <Grid>
-        <TextBlock TextAlignment="Center" VerticalAlignment="Center" FontSize="36">Hello, New Window.</TextBlock>
+        <TextBlock TextAlignment="Center" VerticalAlignment="Center" FontSize="36" Text="{Binding DisplayName}" />
     </Grid>
 </Window>

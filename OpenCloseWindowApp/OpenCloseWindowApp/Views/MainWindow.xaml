@@ -11,10 +11,16 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
-        <Button Width="120" Height="30"
-                Command="{Binding OpenCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
-            Open New Window
-        </Button>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,120,0,30">
+                <TextBlock Height="30" Margin="0,0,5,0" FontSize="20">Name:</TextBlock>
+                <TextBox Width="120" Height="30" FontSize="20" Text="{Binding Username}" />
+            </StackPanel>
+            <Button Width="120" Height="30"
+                    Command="{Binding OpenCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+                Open New Window
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>

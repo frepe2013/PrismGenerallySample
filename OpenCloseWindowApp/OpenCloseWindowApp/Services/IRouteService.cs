@@ -6,6 +6,6 @@ namespace OpenCloseWindowApp.Services
 {
     public interface IRouteService
     {
-        void ShowBrandNewWindow();
+        void ShowBrandNewWindow(string username);
     }
 }

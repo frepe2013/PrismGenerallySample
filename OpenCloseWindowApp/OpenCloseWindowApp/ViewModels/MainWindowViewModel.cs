@@ -11,6 +11,8 @@ namespace OpenCloseWindowApp.ViewModels
         private readonly IRouteService _routeService;
 
         private string _title = "Prism Application";
+        private string _username;
+
         public string Title
         {
             get { return _title; }
@@ -18,6 +20,12 @@ namespace OpenCloseWindowApp.ViewModels
         }
 
         public bool CancelClose { get; set; } = true;
+
+        public string Username
+        {
+            get { return _username; }
+            set { SetProperty(ref _username, value); }
+        }
 
         public DelegateCommand<CancelEventArgs> ClosingCommand { get; set; }
 
@@ -41,7 +49,7 @@ namespace OpenCloseWindowApp.ViewModels
 
         private void ExecuteOpen(Window window)
         {
-            _routeService.ShowBrandNewWindow();
+            _routeService.ShowBrandNewWindow(Username);
 
             CancelClose = false;
             window?.Close();
