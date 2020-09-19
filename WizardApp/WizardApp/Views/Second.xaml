@@ -5,6 +5,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              Height="300" Width="500">
     <Grid>
-        <TextBlock Text="Second View" FontSize="48" />
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Second View" FontSize="48" />
+            <TextBlock Margin="30,30,0,0" FontSize="20" Text="{Binding DisplayText}" />
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -44,7 +44,7 @@ namespace WizardApp.ViewModels
 
         public DelegateCommand NextCommand { get; set; }
 
-        public DelegateCommand FinishCommand { get; set; }
+        public DelegateCommand<Window> FinishCommand { get; set; }
 
         public MainWindowViewModel(IRegionManager regionManager)
         {
@@ -52,7 +52,7 @@ namespace WizardApp.ViewModels
 
             PrevCommand = new DelegateCommand(PrevNavigate).ObservesCanExecute(() => CanPrevButton);
             NextCommand = new DelegateCommand(NextNavigate).ObservesCanExecute(() => CanNextButton);
-            FinishCommand = new DelegateCommand(Finish).ObservesCanExecute(() => CanFinishButton);
+            FinishCommand = new DelegateCommand<Window>(Finish).ObservesCanExecute(() => CanFinishButton);
         }
 
         private void PrevNavigate()
@@ -79,24 +79,27 @@ namespace WizardApp.ViewModels
             var type = _regionManager.Regions["ContentRegion"].ActiveViews.First().GetType();
 
             var navigationPath = "";
+            var parameters = new NavigationParameters();
             if (type == typeof(First))
             {
                 navigationPath = nameof(Second);
+                parameters.Add("foo", "bar");
                 CanPrevButton = true;
             }
             else if (type == typeof(Second))
             {
                 navigationPath = nameof(Third);
+                parameters.Add("hoge", "fuga_main");
                 CanNextButton = false;
                 CanFinishButton = true;
             }
 
-            _regionManager.RequestNavigate("ContentRegion", navigationPath);
+            _regionManager.RequestNavigate("ContentRegion", navigationPath, parameters);
         }
 
-        private void Finish()
+        private void Finish(Window window)
         {
-            Application.Current.MainWindow?.Close();
+            window?.Close();
         }
     }
 }

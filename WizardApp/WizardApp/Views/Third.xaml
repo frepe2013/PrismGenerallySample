@@ -5,6 +5,12 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              Height="300" Width="500">
     <Grid>
-        <TextBlock Text="Third View" FontSize="48" />
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Third View" FontSize="48" />
+            <TextBlock FontSize="20">All Paramter</TextBlock>
+            <TextBlock Margin="30,0,0,10" FontSize="20" Text="{Binding AllParameter}" />
+            <TextBlock FontSize="20">Duplicate Parameter</TextBlock>
+            <TextBlock Margin="30,0,0,10" FontSize="20" Text="{Binding DuplicateParameter}" />
+        </StackPanel>
     </Grid>
 </UserControl>
