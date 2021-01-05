@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>ProgressBarApp1</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
+  </ItemGroup>
+</Project>
